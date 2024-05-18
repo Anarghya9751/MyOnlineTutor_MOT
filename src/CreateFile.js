@@ -181,7 +181,7 @@ function CreateFile() {
             });
 
             try {
-                const response = await axios.post(`http://localhost:8061s/api/file/addFile`, formDataToSend, {
+                const response = await axios.post(`http://localhost:8061/api/file/addFile`, formDataToSend, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

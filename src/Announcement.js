@@ -74,6 +74,19 @@ function Announcement() {
   const handleSendAnnouncement = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
+
+    // Clear user or tutor state based on recipient type
+    let users = "";
+    let tutors = "";
+
+    if (recipientType === "user") {
+      users = recipientId;
+      tutors = "";
+    } else if (recipientType === "tutor") {
+      users = "";
+      tutors = recipientId;
+    }
+
     if (validateForm()) {
       try {
         const response = await axios.post("http://localhost:8080/api/admin/add-announcement", {
@@ -81,14 +94,14 @@ function Announcement() {
           message,
           recipientType,
           recipientId,
-          userId: recipientId
+          userId: users,
+          tutorId: tutors
         });
         console.log("Announcement sent:", response.data);
         setTitle("");
         setMessage("");
         setRecipientType("");
         setRecipientId("");
-        // Reset formSubmitted to false after successful submission
         setFormSubmitted(false);
       } catch (error) {
         console.error("Error sending announcement:", error);

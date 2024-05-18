@@ -45,7 +45,7 @@ export default function AdminLandingPage(){
         <>
         <div>
             <AdminDashboard/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> 
-            <Link to="UserManagement"><div class="card-admin" style={{marginLeft: "25%", marginTop: "-63%"}}>
+            <Link to="UserManagement"><div class="card-admin" style={{marginLeft: "25%", marginTop: "-71%"}}>
             <p class="time-text"><span style={{color: "whitesmoke"}}>Users</span><span class="time-sub-text"></span></p>
             <div style={{display: "flex"}}>
             <div>
