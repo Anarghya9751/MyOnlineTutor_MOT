@@ -1,115 +1,3 @@
-
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import { Link } from "react-router-dom";
-// import './Announcement.css'; // Import the CSS file
-// import AdminDashboard from "./AdminDashboard";
-
-// function Announcement() {
-//   const [title, setTitle] = useState("");
-//   const [message, setMessage] = useState("");
-//   const [recipientType, setRecipientType] = useState("");
-//   const [recipientId, setRecipientId] = useState("");
-//   const [userIds, setUserIds] = useState([]);
-//   const [tutorIds, setTutorIds] = useState([]);
-
-//   useEffect(() => {
-//     fetchUserIds();
-//     fetchTutorIds();
-//   }, []);
-
-//   const fetchUserIds = async () => {
-//     try {
-//       const response = await axios.get("http://localhost:8080/api/users/users/ids");
-//       setUserIds(response.data);
-//     } catch (error) {
-//       console.error("Error fetching user IDs:", error);
-//     }
-//   };
-
-//   const fetchTutorIds = async () => {
-//     try {
-//       const response = await axios.get("http://localhost:8080/api-v1/tutors/ids");
-//       setTutorIds(response.data);
-//     } catch (error) {
-//       console.error("Error fetching tutor IDs:", error);
-//     }
-//   };
-
-//   const handleSendAnnouncement = async () => {
-//     try {
-//       const response = await axios.post("http://localhost:8080/api/admin/add-announcement", {
-//         title,
-//         message,
-//         recipientType,
-//         recipientId,
-//         userId: recipientId
-//       });
-//       console.log("Announcement sent:", response.data);
-//       // Reset form fields after successful submission
-//       setTitle("");
-//       setMessage("");
-//       setRecipientType("");
-//       setRecipientId("");
-//     } catch (error) {
-//       console.error("Error sending announcement:", error);
-//     }
-//   };
-
-//   return (
-//     <>
-//     <AdminDashboard/>
-//     <div id="announcement" className="add-announcement-page" style={{marginTop: "-48%", marginLeft: "30%"}}>
-//       <h1>Add New Announcement</h1>
-//       <form className="formAnnouncement">
-//         <label className="Boxa">Title:</label>
-//         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        
-//         <label className="Boxa">Message:</label>
-//         <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
-
-//         <div className="dropdown">
-//           <label>Select Recipient Type:</label>
-//           <select value={recipientType} onChange={(e) => setRecipientType(e.target.value)}>
-//             <option value="">Select Type</option>
-//             <option value="user">User</option>
-//             <option value="tutor">Tutor</option>
-//           </select>
-//         </div>
-
-//         {recipientType === "user" && (
-//           <div className="dropdown">
-//             <label>Select User ID:</label>
-//             <select value={recipientId} onChange={(e) => setRecipientId(e.target.value)}>
-//               <option value="">Select ID</option>
-//               {userIds.map(id => (
-//                 <option key={id} value={id}>{id}</option>
-//               ))}
-//             </select>
-//           </div>
-//         )}
-
-//         {recipientType === "tutor" && (
-//           <div className="dropdown">
-//             <label>Select Tutor ID:</label>
-//             <select value={recipientId} onChange={(e) => setRecipientId(e.target.value)}>
-//               <option value="">Select ID</option>
-//               {tutorIds.map(id => (
-//                 <option key={id} value={id}>{id}</option>
-//               ))}
-//             </select>
-//           </div>
-//         )}
-
-//         <button className=" btn btn-primary" onClick={handleSendAnnouncement} style={{width:'6cm',marginLeft:"6cm"}} >Send Announcement</button>
-//       </form>
-//     </div>
-//     </>
-//   );
-// }
-
-// export default Announcement;
-// Announcement.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminDashboard from "./AdminDashboard";
@@ -200,6 +88,8 @@ function Announcement() {
         setMessage("");
         setRecipientType("");
         setRecipientId("");
+        // Reset formSubmitted to false after successful submission
+        setFormSubmitted(false);
       } catch (error) {
         console.error("Error sending announcement:", error);
       }
@@ -211,7 +101,7 @@ function Announcement() {
       <AdminDashboard />
       <div id="announcement" className="add-announcement-page" style={{ marginTop: "-48%", marginLeft: "30%" }}>
         <h1>Add New Announcement</h1>
-        <form className="formAnnouncement" onSubmit={handleSendAnnouncement}>
+        <form className="formAnnouncement" onSubmit={handleSendAnnouncement} style={{marginLeft:'10%'}}>
           <label className="Boxa">Title:</label>
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           {formSubmitted && !title && <span className="error">Title is required</span>}
