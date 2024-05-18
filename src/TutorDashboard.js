@@ -21,8 +21,7 @@ function TutorDashboard() {
   useEffect(() => {
     // Fetch tutor details when the component mounts
     const tutorId = localStorage.getItem('tutorId');
-    const tutorName = localStorage.getItem('tutorName');
-    if (tutorId && tutorName) {
+    if (tutorId) {
       axios.get(`http://localhost:8080/api-v1/${tutorId}`)
         .then(response => {
           setTutorData(response.data);
@@ -80,4 +79,3 @@ function TutorDashboard() {
 }
 
 export default TutorDashboard;
-
