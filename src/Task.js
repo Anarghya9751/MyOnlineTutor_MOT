@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,10 +34,9 @@ function Task() {
   }, []);
 
   const fetchData = async () => {
-    const courses = localStorage.getItem('courses');
-    if (courses) {
+    if (tutorData && tutorData.courses) {
       try {
-        const response = await axios.get(`http://localhost:8080/api-v1/by-course/${courses}`);
+        const response = await axios.get(`http://localhost:8080/api/users/by-course/${tutorData.courses.join(',')}`);
         setUsers(response.data);
       } catch (error) {
         console.error('Error while fetching users:', error);
@@ -45,19 +45,10 @@ function Task() {
   };
 
   useEffect(() => {
-    const course = localStorage.getItem('tutor');
-    if (course) {
-      const t = JSON.parse(course)
-      const c = "Technical - " + t.courses
-      axios.get(`http://localhost:8080/api/users/by-course/${c}`)
-        .then(response => {
-          setUsers(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching users:', error);
-        });
+    if (tutorData && tutorData.courses) {
+      fetchData();
     }
-  }, []);
+  }, [tutorData]);
 
   useEffect(() => {
     if (id) {
@@ -89,7 +80,7 @@ function Task() {
     }
 
     const currentDate = new Date().toISOString().split('T')[0];
-   
+
     if (name === 'startDate' && value < currentDate) {
       error = 'Start date must be the current date or later';
     }

@@ -32,31 +32,21 @@ function LiveClass() {
   }, []);
 
   const fetchData = async () => {
-    const courses = localStorage.getItem('courses');
-    if (courses) {
+    if (tutorData && tutorData.courses) {
       try {
-        const response = await axios.get(`http://localhost:8080/api-v1/by-course/${courses}`);
+        const response = await axios.get(`http://localhost:8080/api/users/by-course/${tutorData.courses.join(',')}`);
         setUsers(response.data);
       } catch (error) {
-        console.error('Error while fetching users:', error);
+        console.error('Error fetching users:', error);
       }
     }
   };
 
   useEffect(() => {
-    const course = localStorage.getItem('tutor');
-    if (course) {
-      const t = JSON.parse(course)
-      const c = "Technical - " + t.courses
-      axios.get(`http://localhost:8080/api/users/by-course/${c}`)
-        .then(response => {
-          setUsers(response.data);
-        })
-        .catch(error => {
-          console.error(`Error fetching ${courseType} course users:`, error);
-        });
+    if (tutorData && tutorData.courses) {
+      fetchData();
     }
-  }, [courseType]);
+  }, [tutorData]);
 
   const fetchTutorData = async () => {
     const tutorId = localStorage.getItem('tutorId');
@@ -300,4 +290,3 @@ function LiveClass() {
 }
 
 export default LiveClass;
-

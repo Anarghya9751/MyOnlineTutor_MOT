@@ -46,15 +46,17 @@ function Attendance() {
   }, [id]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/users/by-course/Technical - Java`)
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error(`Error fetching ${courseType} course users:`, error);
-      });
-  }, [courseType]);
+    if (tutorData && tutorData.courses) {
+      axios
+        .get(`http://localhost:8080/api/users/by-course/${tutorData.courses.join(',')}`)
+        .then((response) => {
+          setUsers(response.data);
+        })
+        .catch((error) => {
+          console.error(`Error fetching ${courseType} course users:`, error);
+        });
+    }
+  }, [tutorData]);
 
   const handleAttendance = (userId, status) => {
     const attendanceKey = `${userId}-${currentDate}`;
@@ -73,10 +75,8 @@ function Attendance() {
             alert(`${fname} ${lname} marked as Present for ${currentDate}`);
             if (status === 'absent') {
               alert(`${fname} ${lname} marked as absent for ${currentDate}`);
-              
             }
           }
-         
         })
         .catch((error) => {
           console.error("Error fetching user details:", error);

@@ -23,11 +23,13 @@ function CreateVideo() {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (tutorData && tutorData.courses) {
+            fetchData();
+        }
+    }, [tutorData]);
 
     const fetchData = () => {
-        axios.get(`http://localhost:8080/api/users/by-course/Technical - Java`)
+        axios.get(`http://localhost:8080/api/users/by-course/${tutorData.courses.join(',')}`)
             .then(response => {
                 setUsers(response.data); // Update users state with fetched data
             })
